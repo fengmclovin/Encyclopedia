@@ -43,6 +43,23 @@ def search(request):
                 "content": html_content
             })
 
+        else:
+            allEntries = util.list_entries()
+            reckon = []
+            for entry in allEntries:
+                if entry_search.lower() in entry.lower():
+                    reckon.append(entry)
+
+            if reckon:
+                return render(request, "encyclopedia/search.html", {
+                    "reckon": reckon
+                })
+
+            else:
+                return render(request, "encyclopedia/error.html", {
+                    "message": "No entries found for '{0}'".format(entry_search)
+                })
+            
     # Handle the case where entry_search is None or html_content is None
     return render(request, "encyclopedia/error.html", {
         "message": "Entry not found"
