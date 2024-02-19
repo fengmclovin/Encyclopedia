@@ -8,7 +8,7 @@ Encyclopedia
 <h1>Search</h1>
 
 <ul>
-    {% for entry in entries %}
+    {% for entry in reckon %}
     <li><a href="{% url 'entry' title=entry%}">{{ entry }}</a></li>
     {% endfor %}
 </ul>
