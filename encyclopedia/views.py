@@ -17,3 +17,33 @@ def index(request):
         "entries": util.list_entries()
     })
 
+def entry(request, title):
+    html_content = convert_md_to_html(title)
+    if html_content == None:
+        return render(request, "encyclopedia/error.html", {
+            "message": "This entry does not exist"
+        })
+
+    else:
+        return render(request, "encyclopedia/entry.html", {
+            "title": title,
+            "content": html_content
+        })
+
+
+def search(request):
+    entry_search = request.POST.get('q')
+
+    if entry_search:
+        html_content = convert_md_to_html(entry_search)
+
+        if html_content:
+            return render(request, "encyclopedia/entry.html", {
+                "title": entry_search,
+                "content": html_content
+            })
+
+    # Handle the case where entry_search is None or html_content is None
+    return render(request, "encyclopedia/error.html", {
+        "message": "Entry not found"
+    })
