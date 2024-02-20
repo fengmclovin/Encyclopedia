@@ -64,3 +64,24 @@ def search(request):
     return render(request, "encyclopedia/error.html", {
         "message": "Entry not found"
     })
+
+def new_page(request):
+    if request.method == "GET":
+        return render(request, "encyclopedia/newpage.html", {
+
+        })
+    else:
+        title = request.POST['title']
+        content = request.POST['content']
+        titleExist = util.get_entry(title)
+        if titleExist:
+            return render(request, "encyclopedia/error.html", {
+                "message": "'{0}' page already exitsts".format(title)
+            })
+        else:
+            util.save_entry(title, content)
+            return render(request, "encyclopedia/newpage.html", {
+                "title": title,
+                "content": content
+            })
+
