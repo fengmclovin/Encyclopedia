@@ -86,6 +86,15 @@ def new_page(request):
                 "content": html_content
             })
 
+def random_page(request):
+    allEntries = util.list_entries()
+    random_entry = random.choice(allEntries)
+    html_content = convert_md_to_html(random_entry)
+    return render(request, "encyclopedia/entry.html", {
+        "title": random_entry,
+        "content": html_content
+    })
+
 def edit(request):
     if request.method == "POST":
         title = request.POST['entry_title']
