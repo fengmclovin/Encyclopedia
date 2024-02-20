@@ -1,8 +1,8 @@
 from django.shortcuts import render
-
 import markdown
-
 from . import util
+import random
+
 
 def convert_md_to_html(title):
     content = util.get_entry(title)
@@ -12,10 +12,12 @@ def convert_md_to_html(title):
     else:
         return markdowner.convert(content)
 
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
+
 
 def entry(request, title):
     html_content = convert_md_to_html(title)
@@ -59,11 +61,12 @@ def search(request):
                 return render(request, "encyclopedia/error.html", {
                     "message": "No entries found for '{0}'".format(entry_search)
                 })
-            
+
     # Handle the case where entry_search is None or html_content is None
     return render(request, "encyclopedia/error.html", {
         "message": "Entry not found"
     })
+
 
 def new_page(request):
     if request.method == "GET":
@@ -86,6 +89,7 @@ def new_page(request):
                 "content": html_content
             })
 
+
 def random_page(request):
     allEntries = util.list_entries()
     random_entry = random.choice(allEntries)
@@ -94,6 +98,7 @@ def random_page(request):
         "title": random_entry,
         "content": html_content
     })
+
 
 def edit(request):
     if request.method == "POST":
