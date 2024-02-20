@@ -80,8 +80,9 @@ def new_page(request):
             })
         else:
             util.save_entry(title, content)
-            return render(request, "encyclopedia/newpage.html", {
+            html_content = convert_md_to_html(title)
+            return render(request, "encyclopedia/entry.html", {
                 "title": title,
-                "content": content
+                "content": html_content
             })
 
